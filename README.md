@@ -11,3 +11,5 @@ Leg design: Open Dynamic Robot Initiative
 Body original design: Deok-yeon Kim
 
 Arm original meshes: Poppy Project
+
+Sensors: NASA 3D models archive
