@@ -61853,6 +61853,7 @@
 	const gallopToggle = document.getElementById('do-gallop');
 	const initToggle = document.getElementById('do-init');
 	const restToggle = document.getElementById('do-rest');
+	const drillToggle = document.getElementById('do-drill');
 
 	const DEG2RAD = Math.PI / 180;
 	const RAD2DEG = 1 / DEG2RAD;
@@ -61873,6 +61874,14 @@
 	    motor_shoulder_RR: 0.0, motor_leg_RR: -1.57, foot_motor_RR: 3.14,
 	    motor_arm_m1: -1.57, motor_arm_m2: -1.57, motor_arm_m3: 0.0,
 	    motor_arm_m4: 0.0, motor_arm_m5: 1.57, motor_arm_m6: -1.57
+	};
+	let drill_pose = {
+	    motor_shoulder_FL: 0.0, motor_leg_FL: -1.57, foot_motor_FL: 3.14,
+	    motor_shoulder_FR: 0.0, motor_leg_FR: -1.57, foot_motor_FR: 3.14,
+	    motor_shoulder_RL: 0.0, motor_leg_RL: -1.57, foot_motor_RL: 3.14,
+	    motor_shoulder_RR: 0.0, motor_leg_RR: -1.57, foot_motor_RR: 3.14,
+	    motor_arm_m1: -1.57, motor_arm_m2: 1.57, motor_arm_m3: 0.0,
+	    motor_arm_m4: 0.0, motor_arm_m5: -1.57, motor_arm_m6: 0.0
 	};
 	var walk_json;
 	var gallop_json;
@@ -62164,6 +62173,15 @@
 	    }
 	};
 
+	const setDrillPose = () => {
+	    if (viewer.robot.visible === false) {
+	        showModel();
+	    }
+	    for (var joint in drill_pose) {
+	        viewer.setAngle(joint, drill_pose[joint]);
+	    }
+	};
+
 	const updateLoop = () => {
 
 	    if (animToggle.classList.contains('checked')) {
@@ -62177,6 +62195,9 @@
 	    }
 	    else if(restToggle.classList.contains('checked')) {
 	        setRestPose();
+	    }
+	    else if(drillToggle.classList.contains('checked')) {
+	        setDrillPose();
 	    }
 
 	    requestAnimationFrame(updateLoop);
@@ -62205,6 +62226,7 @@
 	        gallopToggle.classList.remove('checked');
 	        initToggle.classList.remove('checked');
 	        restToggle.classList.remove('checked');
+	        drillToggle.classList.remove('checked');
 	    });
 
 	    gallopToggle.addEventListener('click', () => {
@@ -62212,6 +62234,7 @@
 	        animToggle.classList.remove('checked');
 	        initToggle.classList.remove('checked');
 	        restToggle.classList.remove('checked');
+	        drillToggle.classList.remove('checked');
 	    });
 
 	    initToggle.addEventListener('click', () => {
@@ -62219,10 +62242,20 @@
 	        animToggle.classList.remove('checked');
 	        gallopToggle.classList.remove('checked');
 	        restToggle.classList.remove('checked');
+	        drillToggle.classList.remove('checked');
 	    });
 
 	    restToggle.addEventListener('click', () => {
 	        restToggle.classList.toggle('checked');
+	        animToggle.classList.remove('checked');
+	        gallopToggle.classList.remove('checked');
+	        initToggle.classList.remove('checked');
+	        drillToggle.classList.remove('checked');
+	    });
+
+	    drillToggle.addEventListener('click', () => {
+	        drillToggle.classList.toggle('checked');
+	        restToggle.classList.remove('checked');
 	        animToggle.classList.remove('checked');
 	        gallopToggle.classList.remove('checked');
 	        initToggle.classList.remove('checked');
@@ -62234,6 +62267,7 @@
 	        gallopToggle.classList.remove('checked');
 	        initToggle.classList.remove('checked');
 	        restToggle.classList.remove('checked');
+	        drillToggle.classList.remove('checked');
 	    });
 	    viewer.addEventListener('urdf-processed', e => setInitialPose());
 	    updateLoop();
