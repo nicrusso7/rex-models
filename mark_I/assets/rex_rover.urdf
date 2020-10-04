@@ -12,6 +12,9 @@
   <material name="dark_grey">
     <color rgba="149 165 166 1"/>  
   </material>
+  <material name="orange">
+    <color rgba="0.98 0.35 0.0 1"/>
+  </material>
   <!-- Params -->
   <!-- Macros -->
   <!-- Robot Body -->
@@ -858,5 +861,101 @@
     <parent link="turret_drill"/>
     <child link="turret_shwa"/>
     <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- High Gain Antenna -->
+  <link name="hga_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="stl/hga_base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    <material name="black"/>
+    <origin rpy="-1.57 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  <joint name="hga_base_base" type="fixed">
+    <parent link="chassis_front_link"/>
+    <child link="hga_base_link"/>
+    <origin rpy="0 0 0" xyz="0.1303 0.0266 0.043"/>
+  </joint>
+
+  <link name="hga_pin_link">
+    <visual>
+      <geometry>
+        <mesh filename="stl/hga_azimuth_pin.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    <origin rpy="1.57 0 0" xyz="0 0 0"/>
+    <material name="black"/>
+    </visual>
+  </link>
+  <joint name="pin_base" type="fixed">
+    <parent link="hga_base_link"/>
+    <child link="hga_pin_link"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0 -0.0015 -0.01"/>
+    <limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.7"/>
+  </joint>
+
+  <link name="hga_antenna_link">
+    <visual>
+      <geometry>
+        <mesh filename="stl/hga_antenna.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 3.14" xyz="0 0 0"/>
+      <material name="orange"/>
+    </visual>
+  </link>
+  <joint name="antenna_pin" type="fixed">
+    <parent link="hga_pin_link"/>
+    <child link="hga_antenna_link"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="0.0019 -0.001 0.021"/>
+    <limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.7"/>
+  </joint>
+
+  <!-- Mastercams -->
+  <link name="mastercam_rear_link">
+    <visual>
+      <geometry>
+        <mesh filename="stl/mastcam_z.stl" scale="0.0009 0.0009 0.0009"/>
+      </geometry>
+    <origin rpy="0 1.57 0" xyz="0 0 0"/>
+    <material name="grey"/>
+    </visual>
+  </link>
+    <joint name="mastercam_rear_base" type="fixed">
+    <parent link="chassis_front_link"/>
+    <child link="mastercam_rear_link"/>
+    <origin rpy="3.14 0.1 0" xyz="0.078 -0.02 0.02"/>
+  </joint>
+
+  <link name="mastercam2_rear_link">
+    <visual>
+      <geometry>
+        <mesh filename="stl/mastcam_z.stl" scale="0.0009 0.0009 0.0009"/>
+      </geometry>
+    <origin rpy="0 1.57 0" xyz="0 0 0"/>
+    <material name="grey"/>
+    </visual>
+  </link>
+    <joint name="mastercam2_rear_base" type="fixed">
+    <parent link="chassis_front_link"/>
+    <child link="mastercam2_rear_link"/>
+    <origin rpy="3.14 0.1 0" xyz="0.078 0.018 0.02"/>
+  </joint>
+
+  <link name="mastercam_front1_link">
+    <visual>
+      <geometry>
+        <mesh filename="stl/mastcam_z.stl" scale="0.00085 0.00085 0.00085"/>
+      </geometry>
+    <origin rpy="0 1.57 3.14" xyz="0 0 0"/>
+    <material name="grey"/>
+    </visual>
+  </link>
+  <joint name="mastercam_front1_base" type="fixed">
+    <parent link="chassis_front_link"/>
+    <child link="mastercam_front1_link"/>
+    <origin rpy="0 0 0" xyz="-0.09 0 -0.03"/>
   </joint>
 </robot>

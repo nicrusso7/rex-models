@@ -265,7 +265,7 @@ const walkGait = () => {
         showModel();
     }
     if (!viewer.setAngle) return;
-
+    setInitialPose();
     const r = viewer.robot;
     let count = 0;
     Object
@@ -295,6 +295,7 @@ const gallopGait = () => {
         showModel();
     }
     if (!viewer.setAngle) return;
+    setInitialPose();
 
     const r = viewer.robot;
     let count = 0;
