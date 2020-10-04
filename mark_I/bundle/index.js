@@ -61864,7 +61864,7 @@
 	    motor_shoulder_RL: 0.0, motor_leg_RL: -0.88, foot_motor_RL: 1.3,
 	    motor_shoulder_RR: 0.0, motor_leg_RR: -0.88, foot_motor_RR: 1.3,
 	    motor_arm_m1: -1.57, motor_arm_m2: -1.57, motor_arm_m3: 0.0,
-	    motor_arm_m4: 0.0, motor_arm_m5: 1.57, motor_arm_m6: 0.0
+	    motor_arm_m4: 0.0, motor_arm_m5: 1.57, motor_arm_m6: -1.57
 	};
 	let rest_pose = {
 	    motor_shoulder_FL: 0.0, motor_leg_FL: -1.57, foot_motor_FL: 3.14,
@@ -61872,7 +61872,7 @@
 	    motor_shoulder_RL: 0.0, motor_leg_RL: -1.57, foot_motor_RL: 3.14,
 	    motor_shoulder_RR: 0.0, motor_leg_RR: -1.57, foot_motor_RR: 3.14,
 	    motor_arm_m1: -1.57, motor_arm_m2: -1.57, motor_arm_m3: 0.0,
-	    motor_arm_m4: 0.0, motor_arm_m5: 1.57, motor_arm_m6: 0.0
+	    motor_arm_m4: 0.0, motor_arm_m5: 1.57, motor_arm_m6: -1.57
 	};
 	var walk_json;
 	var gallop_json;

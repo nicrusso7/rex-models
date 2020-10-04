@@ -9,6 +9,9 @@
   <material name="grey">
     <color rgba="0.6 0.6 0.6 1"/>
   </material>
+  <material name="dark_grey">
+    <color rgba="149 165 166 1"/>  
+  </material>
   <!-- Params -->
   <!-- Macros -->
   <!-- Robot Body -->
@@ -742,17 +745,16 @@
   </joint>
   <link name="arm_section_4">
     <visual>
-      <origin rpy="0 -1.5707963267949 0" xyz="0 -0.058 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="meshes/section_4.obj"/>
+        <mesh filename="meshes/section_1.obj"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
-      <origin rpy="1.5707963267949 0 0" xyz="0 -0.035 0"/>
+      <origin rpy="0 0 0" xyz="0.025 0 0"/>
       <geometry>
-        <cylinder length="0.06" radius="0.02"/>
-        <box size="0.05 0.02 0.03"/>
+        <cylinder length="0.05" radius="0.02"/>
       </geometry>
     </collision>
     <inertial>
@@ -761,35 +763,24 @@
     </inertial>
   </link>
   <joint name="motor_arm_m5" type="revolute">
-    <origin rpy="0 -1.5707963267949 0" xyz="0 -0.048 0"/>
+    <origin rpy="-1.57 0 3.14" xyz="0 -0.048 0"/>
     <parent link="arm_section_3"/>
     <child link="arm_section_4"/>
     <limit effort="100.0" lower="-1.57" upper="1.57" velocity="0.5"/>
-    <axis xyz="0 0 1"/>
+    <axis xyz="1 0 0"/>
   </joint>
-  <link name="arm_fixed_tip">
-    <inertial>
-      <mass value="0.05"/>
-      <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.03"/>
-    </inertial>
-  </link>
-  <joint name="arm_t7f" type="fixed">
-    <origin rpy="-1.5707963267949 0 0" xyz="0 -0.11 0"/>
-    <parent link="arm_section_4"/>
-    <child link="arm_fixed_tip"/>
-  </joint>
-  <link name="arm_section_5">
+  <link name="arm_section_4_ext">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="meshes/gripper.obj"/>
+        <mesh filename="meshes/section_2.obj"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
-      <origin rpy="-1.5707963267949 0 0" xyz="0 -0.04 0"/>
+      <origin rpy="0 1.5707963267949 0" xyz="0.025 0 0"/>
       <geometry>
-        <cylinder length="0.06" radius="0.02"/>
+        <cylinder length="0.05" radius="0.02"/>
       </geometry>
     </collision>
     <inertial>
@@ -798,21 +789,74 @@
     </inertial>
   </link>
   <joint name="motor_arm_m6" type="revolute">
-    <origin rpy="0 -1.5707963267949 0" xyz="0 -0.058 0"/>
-    <axis xyz="0 0 -1"/>
+    <origin rpy="0 0 0" xyz="0 0 0.05"/>
     <parent link="arm_section_4"/>
-    <child link="arm_section_5"/>
-    <limit effort="100.0" lower="-0.436" upper="1.5" velocity="0.7"/>
+    <child link="arm_section_4_ext"/>
+    <limit effort="100.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+    <axis xyz="1 0 0"/>
   </joint>
-  <link name="arm_moving_tip">
-    <inertial>
-      <mass value="0.05"/>
-      <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.03"/>
-    </inertial>
+
+  <!-- Sensors and Tools -->
+  <link name="turret_plate">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/arm_turret_gdrt_fcs.stl" scale= "0.003 0.003 0.003"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
   </link>
-  <joint name="arm_t7m" type="fixed">
-    <origin rpy="-1.5707963267949 0 0" xyz="0 -0.052 0"/>
-    <parent link="arm_section_5"/>
-    <child link="arm_moving_tip"/>
+  <joint name="turret_plate_base" type="fixed">
+    <origin rpy="-3.14 0 0" xyz="0 -0.02 -0.015"/>
+    <parent link="arm_section_4_ext"/>
+    <child link="turret_plate"/>
+    <limit effort="100.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="turret_drill">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/arm_turret_drill.stl" scale= "0.002 0.002 0.002"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+  <joint name="turret_drill_base" type="fixed">
+    <origin rpy="-1.57 0 0" xyz="0 -0.02 -0.05"/>
+    <parent link="turret_plate"/>
+    <child link="turret_drill"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="turret_pixl">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/arm_turret_pixl.stl" scale= "0.0015 0.0015 0.0015"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <joint name="turret_pixl_base" type="fixed">
+    <origin rpy="0 0 1.57" xyz="-0.03 0.075 0.02"/>
+    <parent link="turret_drill"/>
+    <child link="turret_pixl"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="turret_shwa">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="stl/arm_turret_sherloc_watson.stl" scale= "0.002 0.002 0.002"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <joint name="turret_shwa_base" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.03 0"/>
+    <parent link="turret_drill"/>
+    <child link="turret_shwa"/>
+    <axis xyz="0 0 1"/>
   </joint>
 </robot>
